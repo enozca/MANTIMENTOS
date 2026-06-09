@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERMINAL DE RECURSOS - PERTINÁCIA</title>
+    <!-- Fontes e Ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --panel-bg: rgba(20, 20, 25, 0.8);
+            --accent-red: #ff0033;
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+            --border-color: #333;
+            --card-gradient: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%),
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 100%, 100% 4px, 3px 100%; /* Efeito de Scanline de TV antiga */
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 40px;
+            overflow-x: hidden;
+        }
+
+        /* Cabeçalho Estilo Terminal */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .system-info {
+            text-align: right;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--accent-red);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Grid Principal */
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Cards de Recurso */
+        .resource-card {
+            background: var(--card-gradient);
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--accent-red);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .resource-card:hover {
+            border-color: var(--accent-red);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .resource-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .resource-header i {
+            color: var(--accent-red);
+            font-size: 1.5rem;
+        }
+
+        /* O Valor Central */
+        .value-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: all 0.2s;
+        }
+
+        .value-changed {
+            color: var(--accent-red);
+            transform: scale(1.1);
+            text-shadow: 0 0 30px var(--accent-red);
+        }
+
+        /* Controles */
+        .controls {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); /* Corte estiloso */
+        }
+
+        .btn-minus {
+            background: #333;
+            color: #fff;
+        }
+
+        .btn-plus {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        .btn:hover {
+            filter: brightness(1.3);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Rodapé Tecnológico */
+        footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-util {
+            background: transparent;
+            border: 1px solid #444;
+            color: #666;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .btn-util:hover {
+            background: #222;
+            color: #fff;
+            border-color: #fff;
+        }
+
+        /* Responsividade para TV */
+        @media (min-width: 1900px) {
+            .main-grid { grid-template-columns: repeat(4, 1fr); }
+            .value-display { font-size: 8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <p style="color: var(--text-dim); font-size: 0.9rem;">HECATOMBE RPG</p>
+            <h1>RECURSOS DA BASE</h1>
+        </div>
+    </header>
+
+    <main class="main-grid">
+        <!-- Água -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Água Potável</span>
+                <i class="fas fa-droplet"></i>
+            </div>
+            <div class="value-display" id="val-agua">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('agua', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('agua', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Comida -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Rações</span>
+                <i class="fas fa-utensils"></i>
+            </div>
+            <div class="value-display" id="val-racao">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('racao', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('racao', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Sucata -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Sucata</span>
+                <i class="fas fa-gears"></i>
+            </div>
+            <div class="value-display" id="val-sucata">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('sucata', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('sucata', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Minérios -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Minérios</span>
+                <i class="fas fa-gem"></i>
+            </div>
+            <div class="value-display" id="val-minerais">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('minerais', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('minerais', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Vegetal -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Matéria Vegetal</span>
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="value-display" id="val-vegetal">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('vegetal', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('vegetal', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Animal -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Matéria Animal</span>
+                <i class="fas fa-bone"></i>
+            </div>
+            <div class="value-display" id="val-animal">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('animal', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('animal', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Combustível / Energia -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Energia</span>
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="value-display" id="val-energia">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('energia', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('energia', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Paranormal -->
+        <div class="resource-card">
+            <div class="resource-header">
+                <span>Paranormal</span>
+                <i class="fas fa-skull-crossbones"></i>
+            </div>
+            <div class="value-display" id="val-paranormal">0</div>
+            <div class="controls">
+                <button class="btn btn-minus" onclick="update('paranormal', -1)">-</button>
+                <button class="btn btn-plus" onclick="update('paranormal', 1)">+</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <button class="btn-util" onclick="exportData()">Exportar Backup</button>
+        <button class="btn-util" onclick="importData()">Importar Backup</button>
+        <button class="btn-util" onclick="resetAll()" style="color: var(--accent-red);">Limpar Terminal</button>
+    </footer>
+
+    <script>
+        let resources = {
+            agua: 0, racao: 0, sucata: 0, minerais: 0,
+            vegetal: 0, animal: 0, energia: 0, paranormal: 0
+        };
+
+        // Inicialização
+        function init() {
+            const saved = localStorage.getItem('pertinacia_resources');
+            if (saved) resources = JSON.parse(saved);
+            refreshUI();
+            startClock();
+        }
+
+        function update(item, delta) {
+            resources[item] = Math.max(0, resources[item] + delta);
+            
+            // Efeito visual de mudança
+            const el = document.getElementById(`val-${item}`);
+            el.classList.add('value-changed');
+            setTimeout(() => el.classList.remove('value-changed'), 300);
+            
+            refreshUI();
+            save();
+        }
+
+        function refreshUI() {
+            for (const key in resources) {
+                const el = document.getElementById(`val-${key}`);
+                if (el) el.innerText = resources[key];
+            }
+        }
+
+        function save() {
+            localStorage.setItem('pertinacia_resources', JSON.stringify(resources));
+        }
+
+        function resetAll() {
+            if (confirm("CONFIRMAR RESET TOTAL DO SISTEMA?")) {
+                Object.keys(resources).forEach(k => resources[k] = 0);
+                refreshUI();
+                save();
+            }
+        }
+
+        // Funções de Backup
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(resources));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "backup_recursos.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsText(file, 'UTF-8');
+                reader.onload = readerEvent => {
+                    resources = JSON.parse(readerEvent.target.result);
+                    refreshUI();
+                    save();
+                }
+            }
+            input.click();
+        }
+
+        // Relógio do Terminal
+        function startClock() {
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('clock').innerText = now.toLocaleTimeString('pt-BR');
+            }, 1000);
+        }
+
+        init();
+    </script>
+</body>
+</html>
