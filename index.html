@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECURSOS - PERTINÁCIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-red: #ff0033;
+            --accent-glow: rgba(255, 0, 51, 0.4);
+            --text-main: #e0e0e0;
+            --card-gradient: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; user-select: none; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2vw;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 2rem; letter-spacing: 4px; }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .resource-card {
+            background: var(--card-gradient);
+            border: 1px solid #333;
+            border-top: 4px solid var(--accent-red);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .value-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            margin: 10px 0;
+            color: #fff;
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Animação quando o valor muda */
+        .ping { animation: flash 0.5s ease-out; }
+        @keyframes flash {
+            0% { color: var(--accent-red); transform: scale(1.1); }
+            100% { color: white; transform: scale(1); }
+        }
+
+        .controls { display: flex; gap: 15px; }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: #222;
+            color: white;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        .btn-plus { background: var(--accent-red); }
+
+        .btn:active { transform: scale(0.9); }
+
+        .status-bar {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: var(--accent-red);
+            color: black;
+            font-weight: bold;
+            padding: 5px 20px;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>TERMINAL DE RECURSOS</h1>
+        </div>
+    </header>
+
+    <main class="main-grid" id="grid-container">
+        <!-- Os cards serão gerados pelo JavaScript -->
+    </main>
+
+    <div class="status-bar">
+        <span>LINK DE DADOS ATIVO</span>
+        <span>MODO TRANSMISSÃO EM TEMPO REAL</span>
+    </div>
+
+    <!-- Scripts do Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // CONFIGURAÇÃO DO SEU FIREBASE (Substitua pelos SEUS dados aqui)
+   const firebaseConfig = {
+
+  apiKey: "AIzaSyAzZGZQoSW-8wsXzompP3VR-62-fI2zTr0",
+
+  authDomain: "rpghecatombe.firebaseapp.com",
+
+  databaseURL: "https://rpghecatombe-default-rtdb.firebaseio.com",
+
+  projectId: "rpghecatombe",
+
+  storageBucket: "rpghecatombe.firebasestorage.app",
+
+  messagingSenderId: "25921217066",
+
+  appId: "1:25921217066:web:dc0e887c43fec631711953",
+
+  measurementId: "G-SPLCN1BP09"
+
+};
+
+
+        // Inicializar
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const resourceRef = ref(db, 'recursos');
+
+        // Lista de Recursos
+  const resourceList = [
+            { id: 'agua', name: 'Água Potável', icon: 'fa-droplet' },
+            { id: 'racao', name: 'Rações', icon: 'fa-utensils' },
+            { id: 'sucata', name: 'Sucata', icon: 'fa-gears' },
+            { id: 'minerio', name: 'Minérios', icon: 'fa-gem' },
+            { id: 'vegetal', name: 'Materia Vegetal', icon: 'fa-leaf' },
+            { id: 'animal', name: 'Materia Animal', icon: 'fa-bone' },
+            { id: 'energia', name: 'Energia', icon: 'fa-bolt' },
+            { id: 'paranormal', name: 'Paranormal', icon: 'fa-skull-crossbones' }
+        ];
+
+        // Criar os Cards na Tela
+        const grid = document.getElementById('grid-container');
+        resourceList.forEach(res => {
+            grid.innerHTML += `
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <span>${res.name}</span>
+                        <i class="fas ${res.icon}"></i>
+                    </div>
+                    <div class="value-display" id="val-${res.id}">0</div>
+                    <div class="controls">
+                        <button class="btn" onclick="changeValue('${res.id}', -1)">-</button>
+                        <button class="btn btn-plus" onclick="changeValue('${res.id}', 1)">+</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        // ESCUTAR MUDANÇAS (Onde a mágica acontece)
+        // Quando qualquer valor mudar no banco, a TV atualiza na hora
+        onValue(resourceRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    const el = document.getElementById(`val-${key}`);
+                    if (el && el.innerText != data[key]) {
+                        el.innerText = data[key];
+                        el.classList.add('ping'); // Animação de brilho
+                        setTimeout(() => el.classList.remove('ping'), 500);
+                    }
+                });
+            }
+        });
+
+        // ENVIAR MUDANÇAS
+        window.changeValue = (id, delta) => {
+            const el = document.getElementById(`val-${id}`);
+            const currentValue = parseInt(el.innerText);
+            const newValue = Math.max(0, currentValue + delta);
+            
+            // Salva no Firebase (isso vai disparar o onValue em todos os aparelhos)
+            set(ref(db, 'recursos/' + id), newValue);
+        };
+
+        // Relógio
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR');
+        }, 1000);
+
+    </script>
+</body>
+</html>
