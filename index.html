@@ -3,220 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RECURSOS - PERTINÁCIA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>TERMINAL DE COMANDO - PERTINÁCIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-color: #050505;
+            --bg-color: #0a0a0c;
             --accent-red: #ff0033;
-            --accent-glow: rgba(255, 0, 51, 0.4);
+            --accent-red-dim: #80001a;
+            --accent-green: #00ff66;
+            --accent-glow: rgba(255, 0, 51, 0.3);
             --text-main: #e0e0e0;
-            --card-gradient: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+            --panel-bg: rgba(20, 20, 25, 0.8);
+            --border-color: rgba(255, 0, 51, 0.2);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; user-select: none; }
+        /* Scanline Effect */
+
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; }
 
         body {
             background-color: var(--bg-color);
-            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 4px, 3px 100%;
             color: var(--text-main);
             min-height: 100vh;
             padding: 2vw;
+            overflow-x: hidden;
         }
 
+        /* HEADER ESTILIZADO */
         header {
             display: flex;
             justify-content: space-between;
-            border-bottom: 2px solid var(--accent-red);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            position: relative;
         }
 
-        h1 { font-family: 'Orbitron', sans-serif; font-size: 2rem; letter-spacing: 4px; }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: -1px; left: 0;
+            width: 100px; height: 4px;
+            background: var(--accent-red);
         }
 
-        .resource-card {
-            background: var(--card-gradient);
+        h1 { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 1.8rem; 
+            letter-spacing: 6px; 
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .total-counter {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: #aaa;
+            letter-spacing: 2px;
+        }
+        
+        #total-val { font-size: 2rem; color: #fff; margin-right: 5px; }
+
+        .limit-editor {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            padding: 5px 15px;
+            border-radius: 4px;
             border: 1px solid #333;
-            border-top: 4px solid var(--accent-red);
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s;
+        }
+        .btn-limit { background: none; border: none; color: var(--accent-red); cursor: pointer; font-size: 1.2rem; padding: 0 10px; transition: 0.3s; }
+        .btn-limit:hover { color: #fff; text-shadow: 0 0 10px var(--accent-red); }
+
+        /* LAYOUT */
+        .layout-container { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        
+        @media (max-width: 1100px) { .layout-container { grid-template-columns: 1fr; } }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before { content: ">>"; font-size: 0.7rem; opacity: 0.5; }
+
+        /* CARDS RECURSOS */
+.main-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); /* Força 3 colunas */
+    gap: 20px; 
+}
+
+/* Ajuste para telas menores (celulares) não quebrarem */
+@media (max-width: 800px) {
+    .main-grid { grid-template-columns: 1fr; }
+}
+
+        .card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-left: 3px solid var(--accent-red);
+            padding: 25px;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
         }
 
-        .resource-header {
+        .card::before { /* Decoração de canto */
+            content: ""; position: absolute; top: 0; right: 0;
+            border-style: solid; border-width: 0 15px 15px 0;
+            border-color: transparent var(--border-color) transparent transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-left-color: #fff;
+        }
+
+        .card-header {
             display: flex;
             justify-content: space-between;
-            font-weight: bold;
-            color: #888;
+            font-weight: 800;
+            color: #fff;
             text-transform: uppercase;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
         }
 
         .value-display {
             font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            margin: 10px 0;
+            font-size: 4rem;
+            text-align: center;
+            margin: 15px 0;
             color: #fff;
-            text-shadow: 0 0 15px var(--accent-glow);
+            font-weight: 700;
+            transition: 0.3s;
         }
 
-        /* Animação quando o valor muda */
-        .ping { animation: flash 0.5s ease-out; }
-        @keyframes flash {
-            0% { color: var(--accent-red); transform: scale(1.1); }
-            100% { color: white; transform: scale(1); }
-        }
-
-        .controls { display: flex; gap: 15px; }
-
+        /* BOTÕES */
+        .controls { display: flex; gap: 10px; }
         .btn {
             flex: 1;
-            padding: 15px;
-            border: none;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1rem;
             font-weight: bold;
-            background: #222;
-            color: white;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        .btn:hover { background: #fff; color: #000; }
+        .btn-plus:hover { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
+
+        /* UPGRADES */
+        .upgrades-grid { display: flex; flex-direction: column; gap: 12px; }
+        .upgrade-card { 
+            padding: 15px 20px; 
+            border-left: 3px solid #333;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+        }
+        .upgrade-card.active { border-left-color: var(--accent-green); background: rgba(0, 255, 102, 0.05); }
+        
+        .upgrade-info h3 { font-size: 1.1rem; color: #fff; margin-bottom: 4px; }
+        .upgrade-info p { font-size: 0.85rem; color: #888; }
+        .upgrade-cost { font-size: 0.7rem; color: var(--accent-red); font-weight: bold; margin-top: 5px; display: block; }
+
+        .btn-upgrade {
+            width: 100px;
+            font-size: 0.7rem;
+            padding: 8px;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
         }
 
-        .btn-plus { background: var(--accent-red); }
+        /* STATUS */
+        .warning { color: var(--accent-red) !important; text-shadow: 0 0 15px red; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        .btn:active { transform: scale(0.9); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-red-dim); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-red); }
 
-        .status-bar {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%;
-            background: var(--accent-red);
-            color: black;
-            font-weight: bold;
-            padding: 5px 20px;
-            font-size: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-        }
     </style>
 </head>
 <body>
 
     <header>
         <div>
-            <h1>TERMINAL DE RECURSOS</h1>
+         
+            <h1>Terminal de Recursos</h1>
+        </div>
+        <div class="total-counter">
+            <span style="font-size: 0.7rem; display: block; text-align: right;">CARGA TOTAL</span>
+            <span id="total-val">0</span>
+            <div class="limit-editor">
+                <button class="btn-limit" onclick="changeBaseLimit(-5)"><i class="fas fa-minus"></i></button>
+                <span id="max-limit">125</span>
+                <button class="btn-limit" onclick="changeBaseLimit(5)"><i class="fas fa-plus"></i></button>
+            </div>
         </div>
     </header>
 
-    <main class="main-grid" id="grid-container">
-        <!-- Os cards serão gerados pelo JavaScript -->
-    </main>
+    <div class="layout-container">
+        <section>
+            <h2 class="section-title">Monitoramento de Materiais</h2>
+            <main class="main-grid" id="grid-container"></main>
+        </section>
 
-    <div class="status-bar">
-        <span>LINK DE DADOS ATIVO</span>
-        <span>MODO TRANSMISSÃO EM TEMPO REAL</span>
+        <section>
+            <h2 class="section-title">Sistemas da Base</h2>
+            <div class="upgrades-grid" id="upgrades-container"></div>
+        </section>
     </div>
 
-    <!-- Scripts do Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // CONFIGURAÇÃO DO SEU FIREBASE (Substitua pelos SEUS dados aqui)
-   const firebaseConfig = {
+        // Configuração Firebase (Mantida a sua original)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzZGZQoSW-8wsXzompP3VR-62-fI2zTr0",
+            authDomain: "rpghecatombe.firebaseapp.com",
+            databaseURL: "https://rpghecatombe-default-rtdb.firebaseio.com",
+            projectId: "rpghecatombe",
+            storageBucket: "rpghecatombe.firebasestorage.app",
+            messagingSenderId: "25921217066",
+            appId: "1:25921217066:web:dc0e887c43fec631711953"
+        };
 
-  apiKey: "AIzaSyAzZGZQoSW-8wsXzompP3VR-62-fI2zTr0",
-
-  authDomain: "rpghecatombe.firebaseapp.com",
-
-  databaseURL: "https://rpghecatombe-default-rtdb.firebaseio.com",
-
-  projectId: "rpghecatombe",
-
-  storageBucket: "rpghecatombe.firebasestorage.app",
-
-  messagingSenderId: "25921217066",
-
-  appId: "1:25921217066:web:dc0e887c43fec631711953",
-
-  measurementId: "G-SPLCN1BP09"
-
-};
-
-
-        // Inicializar
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const resourceRef = ref(db, 'recursos');
-
-        // Lista de Recursos
-  const resourceList = [
+        
+        const resourceList = [
             { id: 'agua', name: 'Água Potável', icon: 'fa-droplet' },
             { id: 'racao', name: 'Rações', icon: 'fa-utensils' },
             { id: 'sucata', name: 'Sucata', icon: 'fa-gears' },
+            { id: 'animal', name: 'Matéria Animal', icon: 'fa-bone' },
+            { id: 'energia', name: 'Energia', icon: 'fa-bolt' },
+            { id: 'paranormal', name: 'Paranormal', icon: 'fa-skull-crossbones' },
             { id: 'entulho', name: 'Entulhos', icon: 'fa-house' },
             { id: 'minerio', name: 'Minérios', icon: 'fa-gem' },
-            { id: 'vegetal', name: 'Materia Vegetal', icon: 'fa-leaf' },
-            { id: 'animal', name: 'Materia Animal', icon: 'fa-bone' },
-            { id: 'energia', name: 'Energia', icon: 'fa-bolt' },
-            { id: 'paranormal', name: 'Paranormal', icon: 'fa-skull-crossbones' }
+            { id: 'vegetal', name: 'Matéria Vegetal', icon: 'fa-leaf' }
         ];
 
-        // Criar os Cards na Tela
+        const upgradeList = [
+            { id: 'plantacao', name: 'Plantação', cost: '5x Veg; 10x Suc', benefit: '4x Rações/dia' },
+            { id: 'oficina', name: 'Oficina', cost: '2x Ent; 10x Suc', benefit: 'Fabricação 50% custo' },
+            { id: 'quartos', name: 'Quartos Melhores', cost: '5x Ent; 5x Veg; 5x Ani; 10x Suc', benefit: 'Descanso Luxuoso' },
+            { id: 'torre', name: 'Torre de Vigia', cost: '10x Ent; 20x Suc; 2x Min', benefit: 'Evita ataques surpresa' },
+            { id: 'forja', name: 'Forja', cost: '2x Ent; 10x Suc; 3x Min', benefit: 'Desconstruir itens' },
+            { id: 'armazenamento', name: 'Armaz. Melhor', cost: '6x Sucatas', benefit: '+25 Limite de Carga', stackable: true },
+            { id: 'enfermaria', name: 'Enfermaria', cost: '6x Veg; 3x Ani; 1x Para', benefit: 'Cura Esmerilda +2d20' },
+            { id: 'churrasqueira', name: 'Churrasqueira', cost: '4x Sucatas', benefit: 'Evento "FESTA"' },
+            { id: 'gerador', name: 'Gerador Caseiro', cost: '12x Suc; 3x Ener', benefit: 'Produz 3 energia/dia' }
+        ];
+
+        // RENDER RECURSOS
         const grid = document.getElementById('grid-container');
-        resourceList.forEach(res => {
-            grid.innerHTML += `
-                <div class="resource-card">
-                    <div class="resource-header">
-                        <span>${res.name}</span>
-                        <i class="fas ${res.icon}"></i>
-                    </div>
-                    <div class="value-display" id="val-${res.id}">0</div>
-                    <div class="controls">
-                        <button class="btn" onclick="changeValue('${res.id}', -1)">-</button>
-                        <button class="btn btn-plus" onclick="changeValue('${res.id}', 1)">+</button>
-                    </div>
+        grid.innerHTML = resourceList.map(res => `
+            <div class="card">
+                <div class="card-header"><span>${res.name}</span><i class="fas ${res.icon}"></i></div>
+                <div class="value-display" id="val-${res.id}">0</div>
+                <div class="controls">
+                    <button class="btn" onclick="changeValue('${res.id}', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeValue('${res.id}', 1)">+</button>
                 </div>
-            `;
+            </div>`).join('');
+
+        // RENDER UPGRADES
+        const upGrid = document.getElementById('upgrades-container');
+        upGrid.innerHTML = upgradeList.map(up => `
+            <div class="card upgrade-card" id="up-card-${up.id}">
+                <div class="upgrade-info">
+                    <h3>${up.name} <span id="count-${up.id}" style="color:var(--accent-green)"></span></h3>
+                    <p>${up.benefit}</p>
+                    <span class="upgrade-cost">CUSTO: ${up.cost}</span>
+                </div>
+                <button class="btn btn-upgrade" id="btn-up-${up.id}" onclick="toggleUpgrade('${up.id}', ${up.stackable})">
+                    ADQUIRIR
+                </button>
+            </div>`).join('');
+
+        // LOGICA FIREBASE
+        let currentBaseLimit = 125;
+        let currentBonusStorage = 0;
+
+        onValue(ref(db, 'config/limiteBase'), (snap) => { currentBaseLimit = snap.val() || 125; updateUI(); });
+
+        onValue(ref(db, 'recursos'), (snap) => {
+            const data = snap.val() || {};
+            let total = 0;
+            resourceList.forEach(res => {
+                const val = data[res.id] || 0;
+                total += val;
+                document.getElementById(`val-${res.id}`).innerText = val;
+            });
+            document.getElementById('total-val').innerText = total;
+            updateUI();
         });
 
-        // ESCUTAR MUDANÇAS (Onde a mágica acontece)
-        // Quando qualquer valor mudar no banco, a TV atualiza na hora
-        onValue(resourceRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                Object.keys(data).forEach(key => {
-                    const el = document.getElementById(`val-${key}`);
-                    if (el && el.innerText != data[key]) {
-                        el.innerText = data[key];
-                        el.classList.add('ping'); // Animação de brilho
-                        setTimeout(() => el.classList.remove('ping'), 500);
+        onValue(ref(db, 'upgrades'), (snap) => {
+            const ups = snap.val() || {};
+            currentBonusStorage = 0;
+            upgradeList.forEach(up => {
+                const card = document.getElementById(`up-card-${up.id}`);
+                const btn = document.getElementById(`btn-up-${up.id}`);
+                const val = ups[up.id];
+
+                if (up.stackable) {
+                    const count = val || 0;
+                    document.getElementById(`count-${up.id}`).innerText = count > 0 ? `[NV.${count}]` : '';
+                    if (up.id === 'armazenamento') currentBonusStorage = count * 25;
+                    count > 0 ? card.classList.add('active') : card.classList.remove('active');
+                } else {
+                    if (val) {
+                        card.classList.add('active');
+                        btn.innerText = "ATIVO";
+                    } else {
+                        card.classList.remove('active');
+                        btn.innerText = "ADQUIRIR";
                     }
-                });
-            }
+                }
+            });
+            updateUI();
         });
 
-        // ENVIAR MUDANÇAS
+        function updateUI() {
+            const finalLimit = currentBaseLimit + currentBonusStorage;
+            document.getElementById('max-limit').innerText = finalLimit;
+            const total = parseInt(document.getElementById('total-val').innerText);
+            const display = document.getElementById('total-val');
+            total >= finalLimit ? display.classList.add('warning') : display.classList.remove('warning');
+        }
+
+        window.changeBaseLimit = (delta) => set(ref(db, 'config/limiteBase'), Math.max(0, currentBaseLimit + delta));
         window.changeValue = (id, delta) => {
             const el = document.getElementById(`val-${id}`);
-            const currentValue = parseInt(el.innerText);
-            const newValue = Math.max(0, currentValue + delta);
-            
-            // Salva no Firebase (isso vai disparar o onValue em todos os aparelhos)
-            set(ref(db, 'recursos/' + id), newValue);
+            set(ref(db, 'recursos/' + id), Math.max(0, parseInt(el.innerText) + delta));
         };
-
-        // Relógio
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR');
-        }, 1000);
-
+        window.toggleUpgrade = (id, stackable) => {
+            const r = ref(db, 'upgrades/' + id);
+            onValue(r, (s) => { 
+                const current = s.val();
+                stackable ? set(r, (current || 0) + 1) : set(r, !current); 
+            }, { onlyOnce: true });
+        };
     </script>
 </body>
 </html>
