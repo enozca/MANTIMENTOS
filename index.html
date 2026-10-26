@@ -4,242 +4,452 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DISTOPIA - mantimentos</title>
-        	<link rel="shortcut icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="shortcut icon" href="favicon.ico">
+    
     <style>
         :root {
             --bg-color: #0a0a0c;
+            --panel-bg: #121216;
+            --panel-border: rgba(255, 255, 255, 0.08);
+            
             --accent-red: #ff0033;
             --accent-red-dim: #80001a;
-            --accent-green: #00ff66;
-            --accent-glow: rgba(255, 0, 51, 0.3);
-            --text-main: #e0e0e0;
-            --panel-bg: rgba(20, 20, 25, 0.8);
-            --border-color: rgba(255, 0, 51, 0.2);
+            --accent-green: #00c853;
+            --accent-gold: #e6a100;
+            --accent-copper: #d97724;
+            --accent-silver: #94a3b8;
+            --accent-fire: #e53e3e;
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
         }
 
-        /* Scanline Effect */
-
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-main);
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 2vw;
-            overflow-x: hidden;
+            padding: 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        /* HEADER ESTILIZADO */
+        /* HEADER CLEAN */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 40px;
-            position: relative;
+            align-items: center;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--panel-border);
         }
 
-        header::after {
-            content: "";
-            position: absolute;
-            bottom: -1px; left: 0;
-            width: 100px; height: 4px;
-            background: var(--accent-red);
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-title i {
+            color: var(--accent-red);
+            font-size: 1.25rem;
         }
 
         h1 { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 1.8rem; 
-            letter-spacing: 6px; 
+            font-family: 'Rajdhani', sans-serif; 
+            font-size: 1.5rem; 
+            font-weight: 700;
+            letter-spacing: 2px; 
             text-transform: uppercase;
-            color: #fff;
-            text-shadow: 0 0 10px var(--accent-glow);
+            color: var(--text-primary);
         }
 
-        .total-counter {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            color: #aaa;
-            letter-spacing: 2px;
+        .header-stats {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        #total-val { font-size: 2rem; color: #fff; margin-right: 5px; }
+        .stat-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
 
         .limit-editor {
             display: inline-flex;
             align-items: center;
-            background: rgba(255,255,255,0.05);
-            padding: 5px 15px;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            padding: 2px 8px;
             border-radius: 4px;
-            border: 1px solid #333;
+            border: 1px solid var(--panel-border);
+            margin-top: 2px;
         }
-        .btn-limit { background: none; border: none; color: var(--accent-red); cursor: pointer; font-size: 1.2rem; padding: 0 10px; transition: 0.3s; }
-        .btn-limit:hover { color: #fff; text-shadow: 0 0 10px var(--accent-red); }
 
-        /* LAYOUT */
-        .layout-container { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
-        
-        @media (max-width: 1100px) { .layout-container { grid-template-columns: 1fr; } }
+        .btn-limit { 
+            background: none; 
+            border: none; 
+            color: var(--text-secondary); 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            padding: 2px 6px; 
+            border-radius: 3px;
+            transition: all 0.2s; 
+        }
+        .btn-limit:hover { color: var(--accent-red); background: rgba(255,0,51,0.1); }
 
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
-            margin-bottom: 25px;
-            color: var(--accent-red);
-            text-transform: uppercase;
-            letter-spacing: 4px;
+        /* NAVEGAÇÃO ENTRE CARDS */
+        .carousel-nav-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 0.85rem 1.25rem;
         }
-        .section-title::before { content: ">>"; font-size: 0.7rem; opacity: 0.5; }
 
-        /* CARDS RECURSOS */
-.main-grid { 
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); /* Força 3 colunas */
-    gap: 20px; 
-}
+        .nav-arrow {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--panel-border);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
 
-/* Ajuste para telas menores (celulares) não quebrarem */
-@media (max-width: 800px) {
-    .main-grid { grid-template-columns: 1fr; }
-}
+        .nav-arrow:hover {
+            background: var(--accent-red-dim);
+            border-color: var(--accent-red);
+            color: #fff;
+        }
 
+        .nav-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .current-section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .current-section-title i { color: var(--accent-red); }
+
+        .slide-indicator {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* VIEWPORT DO CARROSSEL */
+        .carousel-viewport {
+            width: 100%;
+            min-height: 480px;
+        }
+
+        .slide-card {
+            display: none;
+        }
+
+        .slide-card.active {
+            display: block;
+        }
+
+        /* LAYOUT GRIDS */
+        .main-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 1.25rem; 
+        }
+
+        @media (max-width: 960px) {
+            .main-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+            body { padding: 1.25rem; }
+            .main-grid { grid-template-columns: 1fr; }
+            header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .header-stats { width: 100%; justify-content: space-between; }
+        }
+
+        /* CARDS MINIMALISTAS */
         .card {
             background: var(--panel-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-left: 3px solid var(--accent-red);
-            padding: 25px;
-            position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
-            overflow: hidden;
-        }
-
-        .card::before { /* Decoração de canto */
-            content: ""; position: absolute; top: 0; right: 0;
-            border-style: solid; border-width: 0 15px 15px 0;
-            border-color: transparent var(--border-color) transparent transparent;
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: border-color 0.2s ease, transform 0.2s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            border-left-color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
-            font-weight: 800;
-            color: #fff;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
             text-transform: uppercase;
-            font-size: 1.25rem;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            letter-spacing: 0.5px;
         }
+
+        .card-header i { font-size: 1.1rem; color: var(--text-muted); }
 
         .value-display {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3rem;
             text-align: center;
-            margin: 15px 0;
-            color: #fff;
+            color: var(--text-primary);
             font-weight: 700;
-            transition: 0.3s;
+            line-height: 1;
         }
 
-        /* BOTÕES */
-        .controls { display: flex; gap: 10px; }
+        .sub-value-display {
+            font-size: 0.8rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .sub-value-display span { font-weight: 600; color: var(--text-secondary); }
+
+        /* CONTROLES E BOTÕES MINIMALISTAS */
+        .controls { display: flex; gap: 0.5rem; }
         .btn {
             flex: 1;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.6rem;
+            border: 1px solid var(--panel-border);
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-        .btn:hover { background: #fff; color: #000; }
-        .btn-plus:hover { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
-
-        /* UPGRADES */
-        .upgrades-grid { display: flex; flex-direction: column; gap: 12px; }
-        .upgrade-card { 
-            padding: 15px 20px; 
-            border-left: 3px solid #333;
-            display: grid;
-            grid-template-columns: 1fr auto;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.02);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            display: flex;
             align-items: center;
+            justify-content: center;
         }
-        .upgrade-card.active { border-left-color: var(--accent-green); background: rgba(0, 255, 102, 0.05); }
+        .btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+        .btn-plus:hover { background: var(--accent-red-dim); border-color: var(--accent-red); color: #fff; }
+
+        /* UPGRADES CARDS */
+        .upgrades-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+        @media (max-width: 800px) { .upgrades-grid { grid-template-columns: 1fr; } }
+
+        .upgrade-card { 
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.25rem;
+            transition: border-color 0.2s ease;
+        }
         
-        .upgrade-info h3 { font-size: 1.1rem; color: #fff; margin-bottom: 4px; }
-        .upgrade-info p { font-size: 0.85rem; color: #888; }
-        .upgrade-cost { font-size: 0.7rem; color: var(--accent-red); font-weight: bold; margin-top: 5px; display: block; }
+        .upgrade-card.active { 
+            border-color: rgba(0, 200, 83, 0.4);
+            background: rgba(0, 200, 83, 0.02);
+        }
+        
+        .upgrade-info h3 { 
+            font-size: 1rem; 
+            font-weight: 600; 
+            color: var(--text-primary); 
+            margin-bottom: 0.25rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+        }
+        
+        .upgrade-info p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; }
+        .upgrade-cost { font-size: 0.75rem; color: var(--accent-red); font-weight: 600; margin-top: 0.5rem; display: block; }
 
         .btn-upgrade {
-            width: 100px;
-            font-size: 0.7rem;
-            padding: 8px;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            min-width: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.6rem 0.8rem;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
         }
 
-        /* STATUS */
-        .warning { color: var(--accent-red) !important; text-shadow: 0 0 15px red; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .btn-upgrade.active-btn {
+            background: rgba(0, 200, 83, 0.1);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        /* MOEDAS (ÓBOLOS) CARDS STYLING MINIMALISTA */
+        .coin-card-aluminio .card-header i { color: var(--accent-silver); }
+        .coin-card-cobre .card-header i { color: var(--accent-copper); }
+        .coin-card-ouro .card-header i { color: var(--accent-gold); }
+        .coin-card-bafo .card-header i { color: var(--accent-fire); }
+
+        .money-summary-box {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .money-summary-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .money-summary-title i { color: var(--accent-gold); }
+
+        .money-summary-total {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        /* LIMIT WARNING */
+        .warning { color: var(--accent-red) !important; }
 
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-red-dim); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-red); }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: #22222a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-red-dim); }
 
     </style>
 </head>
 <body>
 
+    <!-- HEADER CLEAN -->
     <header>
-        <div>
-         
-            <h1>Terminal de Recursos</h1>
+        <div class="header-title">
+            <i class="fas fa-layer-group"></i>
+            <h1>recursos</h1>
         </div>
-        <div class="total-counter">
-            <span style="font-size: 0.7rem; display: block; text-align: right;">CARGA TOTAL</span>
-            <span id="total-val">0</span>
-            <div class="limit-editor">
-                <button class="btn-limit" onclick="changeBaseLimit(-5)"><i class="fas fa-minus"></i></button>
-                <span id="max-limit">125</span>
-                <button class="btn-limit" onclick="changeBaseLimit(5)"><i class="fas fa-plus"></i></button>
+        <div class="header-stats">
+            <div class="stat-box">
+                <span class="stat-label">Cofre</span>
+                <span id="header-money-val" class="stat-value" style="color: var(--accent-gold);">0 OB$</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Carga Total</span>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span id="total-val" class="stat-value">0</span>
+                    <span style="color: var(--text-muted); font-size: 1rem;">/</span>
+                    <div class="limit-editor">
+                        <button class="btn-limit" onclick="changeBaseLimit(-5)" title="Reduzir limite"><i class="fas fa-minus"></i></button>
+                        <span id="max-limit" style="font-weight: 600; font-size: 0.95rem;">125</span>
+                        <button class="btn-limit" onclick="changeBaseLimit(5)" title="Aumentar limite"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
-    <div class="layout-container">
-        <section>
-            <h2 class="section-title">Monitoramento de Materiais</h2>
+    <!-- NAVEGAÇÃO DE CARDS / SEÇÕES -->
+    <nav class="carousel-nav-container">
+        <button class="nav-arrow" onclick="prevSlide()" aria-label="Seção Anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="nav-center">
+            <div class="current-section-title" id="section-title-display">
+                <i class="fas fa-boxes-stacked"></i> Materiais
+            </div>
+            <span class="slide-indicator" id="slide-indicator-display">1 / 3</span>
+        </div>
+
+        <button class="nav-arrow" onclick="nextSlide()" aria-label="Próxima Seção">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </nav>
+
+    <!-- VIEWPORT DO CARROSSEL -->
+    <div class="carousel-viewport">
+
+        <!-- CARD 1: MONITORAMENTO DE MATERIAIS -->
+        <section class="slide-card active" id="slide-0">
             <main class="main-grid" id="grid-container"></main>
         </section>
 
-        <section>
-            <h2 class="section-title">Sistemas da Base</h2>
+        <!-- CARD 2: UPGRADES DA BASE -->
+        <section class="slide-card" id="slide-1">
             <div class="upgrades-grid" id="upgrades-container"></div>
         </section>
+
+        <!-- CARD 3: COFRE DE ÓBOLOS -->
+        <section class="slide-card" id="slide-2">
+            <div class="money-summary-box">
+                <div class="money-summary-title">
+                    <i class="fas fa-vault"></i>
+                    <span>Cofre</span>
+                </div>
+                <div class="money-summary-total" id="total-obolos-display">0 OB$</div>
+            </div>
+            <main class="main-grid" id="obolos-container"></main>
+        </section>
+
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Configuração Firebase (Mantida a sua original)
+        // Configuração do Firebase Realtime Database
         const firebaseConfig = {
             apiKey: "AIzaSyAzZGZQoSW-8wsXzompP3VR-62-fI2zTr0",
             authDomain: "rpghecatombe.firebaseapp.com",
@@ -253,6 +463,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
+        // MATERIAIS
         const resourceList = [
             { id: 'agua', name: 'Água Potável', icon: 'fa-droplet' },
             { id: 'racao', name: 'Rações', icon: 'fa-utensils' },
@@ -265,19 +476,28 @@
             { id: 'vegetal', name: 'Matéria Vegetal', icon: 'fa-leaf' }
         ];
 
+        // UPGRADES
         const upgradeList = [
-            { id: 'plantacao', name: 'Plantação', cost: '5x Veg; 10x Suc', benefit: '4x Rações/dia' },
-            { id: 'oficina', name: 'Oficina', cost: '2x Ent; 10x Suc', benefit: 'Fabricação 50% custo' },
-            { id: 'quartos', name: 'Quartos Melhores', cost: '5x Ent; 5x Veg; 5x Ani; 10x Suc', benefit: 'Descanso Luxuoso' },
-            { id: 'torre', name: 'Torre de Vigia', cost: '10x Ent; 20x Suc; 2x Min', benefit: 'Evita ataques surpresa' },
-            { id: 'forja', name: 'Forja', cost: '2x Ent; 10x Suc; 3x Min', benefit: 'Desconstruir itens' },
+            { id: 'plantacao', name: 'Plantação', cost: '5x Vegetal; 10x Sucata', benefit: '4x Rações/dia' },
+            { id: 'oficina', name: 'Oficina', cost: '2x Entulhos; 10x Sucata', benefit: 'Fabricação 50% custo' },
+            { id: 'quartos', name: 'Quartos Melhores', cost: '5x Entulhos; 5x Vegetal; 5x Animal; 10x Sucata', benefit: 'Descanso Luxuoso' },
+            { id: 'torre', name: 'Torre de Vigia', cost: '10x Entulhos; 20x Sucata; 2x Minérios', benefit: 'Evita ataques surpresa' },
+            { id: 'forja', name: 'Forja', cost: '2x Entulhos; 10x Sucata; 3x Minérios', benefit: 'Desconstruir itens' },
             { id: 'armazenamento', name: 'Armaz. Melhor', cost: '6x Sucatas', benefit: '+25 Limite de Carga', stackable: true },
-            { id: 'enfermaria', name: 'Enfermaria', cost: '6x Veg; 3x Ani; 1x Para', benefit: 'Cura Esmerilda +2d20' },
+            { id: 'enfermaria', name: 'Enfermaria', cost: '6x Vegetal; 3x Animal; 1x Paranormal', benefit: 'Cura Esmerilda +2d20' },
             { id: 'churrasqueira', name: 'Churrasqueira', cost: '4x Sucatas', benefit: 'Evento "FESTA"' },
-            { id: 'gerador', name: 'Gerador Caseiro', cost: '12x Suc; 3x Ener', benefit: 'Produz 3 energia/dia' }
+            { id: 'gerador', name: 'Gerador Caseiro', cost: '12x Sucata; 3x Energia', benefit: 'Produz 3 energia/dia' }
         ];
 
-        // RENDER RECURSOS
+        // MOEDAS (ÓBOLOS)
+        const obolosList = [
+            { id: 'aluminio', name: 'Óbolo de Alumínio', value: 1, icon: 'fa-coins', cssClass: 'coin-card-aluminio' },
+            { id: 'cobre', name: 'Óbolo de Cobre', value: 10, icon: 'fa-coins', cssClass: 'coin-card-cobre' },
+            { id: 'ouro', name: 'Óbolo de Ouro', value: 50, icon: 'fa-coins', cssClass: 'coin-card-ouro' },
+            { id: 'bafo', name: 'Bafo do Diabo', value: 100, icon: 'fa-coins', cssClass: 'coin-card-bafo' }
+        ];
+
+        // RENDER MATERIAL CARDS
         const grid = document.getElementById('grid-container');
         grid.innerHTML = resourceList.map(res => `
             <div class="card">
@@ -289,12 +509,12 @@
                 </div>
             </div>`).join('');
 
-        // RENDER UPGRADES
+        // RENDER UPGRADE CARDS
         const upGrid = document.getElementById('upgrades-container');
         upGrid.innerHTML = upgradeList.map(up => `
             <div class="card upgrade-card" id="up-card-${up.id}">
                 <div class="upgrade-info">
-                    <h3>${up.name} <span id="count-${up.id}" style="color:var(--accent-green)"></span></h3>
+                    <h3>${up.name} <span id="count-${up.id}" style="color:var(--accent-green); font-size:0.85rem"></span></h3>
                     <p>${up.benefit}</p>
                     <span class="upgrade-cost">CUSTO: ${up.cost}</span>
                 </div>
@@ -303,43 +523,107 @@
                 </button>
             </div>`).join('');
 
-        // LOGICA FIREBASE
+        // RENDER ÓBOLO CARDS
+        const obolosGrid = document.getElementById('obolos-container');
+        obolosGrid.innerHTML = obolosList.map(coin => `
+            <div class="card ${coin.cssClass}">
+                <div class="card-header">
+                    <span>${coin.name}</span>
+                    <i class="fas ${coin.icon}"></i>
+                </div>
+                <div class="value-display" id="val-obolo-${coin.id}">0</div>
+                <div class="sub-value-display">
+                    Unidade: <span>${coin.value} OB$</span> | Total: <span id="subtotal-obolo-${coin.id}">0</span> OB$
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="changeObolo('${coin.id}', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeObolo('${coin.id}', 1)">+</button>
+                </div>
+            </div>`).join('');
+
+        // LÓGICA DO CARROSSEL
+        const sections = [
+            { title: 'Materiais', icon: 'fa-boxes-stacked' },
+            { title: 'Upgrades', icon: 'fa-sliders' },
+            { title: 'Cofre', icon: 'fa-vault' }
+        ];
+
+        let currentSlide = 0;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide-card').forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlide);
+            });
+
+            const current = sections[currentSlide];
+            document.getElementById('section-title-display').innerHTML = `
+                <i class="fas ${current.icon}"></i> ${current.title}
+            `;
+            document.getElementById('slide-indicator-display').innerText = `SEÇÃO ${currentSlide + 1} / ${sections.length}`;
+        }
+
+        window.nextSlide = () => {
+            currentSlide = (currentSlide + 1) % sections.length;
+            updateSlide();
+        };
+
+        window.prevSlide = () => {
+            currentSlide = (currentSlide - 1 + sections.length) % sections.length;
+            updateSlide();
+        };
+
+        // FIREBASE SYNC & STATE
         let currentBaseLimit = 125;
         let currentBonusStorage = 0;
 
+        // Limite da Base
         onValue(ref(db, 'config/limiteBase'), (snap) => { currentBaseLimit = snap.val() || 125; updateUI(); });
 
+        // Recursos Materiais
         onValue(ref(db, 'recursos'), (snap) => {
             const data = snap.val() || {};
             let total = 0;
             resourceList.forEach(res => {
                 const val = data[res.id] || 0;
                 total += val;
-                document.getElementById(`val-${res.id}`).innerText = val;
+                const el = document.getElementById(`val-${res.id}`);
+                if (el) el.innerText = val;
             });
             document.getElementById('total-val').innerText = total;
             updateUI();
         });
 
+        // Upgrades
         onValue(ref(db, 'upgrades'), (snap) => {
             const ups = snap.val() || {};
             currentBonusStorage = 0;
             upgradeList.forEach(up => {
                 const card = document.getElementById(`up-card-${up.id}`);
                 const btn = document.getElementById(`btn-up-${up.id}`);
+                const countEl = document.getElementById(`count-${up.id}`);
                 const val = ups[up.id];
+
+                if (!card || !btn) return;
 
                 if (up.stackable) {
                     const count = val || 0;
-                    document.getElementById(`count-${up.id}`).innerText = count > 0 ? `[NV.${count}]` : '';
+                    if (countEl) countEl.innerText = count > 0 ? `[Nv. ${count}]` : '';
                     if (up.id === 'armazenamento') currentBonusStorage = count * 25;
-                    count > 0 ? card.classList.add('active') : card.classList.remove('active');
+                    if (count > 0) {
+                        card.classList.add('active');
+                        btn.classList.add('active-btn');
+                    } else {
+                        card.classList.remove('active');
+                        btn.classList.remove('active-btn');
+                    }
                 } else {
                     if (val) {
                         card.classList.add('active');
+                        btn.classList.add('active-btn');
                         btn.innerText = "ATIVO";
                     } else {
                         card.classList.remove('active');
+                        btn.classList.remove('active-btn');
                         btn.innerText = "ADQUIRIR";
                     }
                 }
@@ -347,19 +631,54 @@
             updateUI();
         });
 
+        // Óbolos (Moedas da Base)
+        onValue(ref(db, 'obolos'), (snap) => {
+            const data = snap.val() || {};
+            let totalMoney = 0;
+
+            obolosList.forEach(coin => {
+                const count = data[coin.id] || 0;
+                const subtotal = count * coin.value;
+                totalMoney += subtotal;
+
+                const valEl = document.getElementById(`val-obolo-${coin.id}`);
+                const subEl = document.getElementById(`subtotal-obolo-${coin.id}`);
+
+                if (valEl) valEl.innerText = count;
+                if (subEl) subEl.innerText = subtotal;
+            });
+
+            document.getElementById('total-obolos-display').innerText = `${totalMoney} OB$`;
+            document.getElementById('header-money-val').innerText = `${totalMoney} OB$`;
+        });
+
         function updateUI() {
             const finalLimit = currentBaseLimit + currentBonusStorage;
             document.getElementById('max-limit').innerText = finalLimit;
-            const total = parseInt(document.getElementById('total-val').innerText);
+            const total = parseInt(document.getElementById('total-val').innerText) || 0;
             const display = document.getElementById('total-val');
-            total >= finalLimit ? display.classList.add('warning') : display.classList.remove('warning');
+            if (total >= finalLimit) {
+                display.classList.add('warning');
+            } else {
+                display.classList.remove('warning');
+            }
         }
 
+        // OPERAÇÕES NO FIREBASE
         window.changeBaseLimit = (delta) => set(ref(db, 'config/limiteBase'), Math.max(0, currentBaseLimit + delta));
+        
         window.changeValue = (id, delta) => {
             const el = document.getElementById(`val-${id}`);
-            set(ref(db, 'recursos/' + id), Math.max(0, parseInt(el.innerText) + delta));
+            const current = parseInt(el ? el.innerText : 0) || 0;
+            set(ref(db, 'recursos/' + id), Math.max(0, current + delta));
         };
+
+        window.changeObolo = (id, delta) => {
+            const el = document.getElementById(`val-obolo-${id}`);
+            const current = parseInt(el ? el.innerText : 0) || 0;
+            set(ref(db, 'obolos/' + id), Math.max(0, current + delta));
+        };
+
         window.toggleUpgrade = (id, stackable) => {
             const r = ref(db, 'upgrades/' + id);
             onValue(r, (s) => { 
