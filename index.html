@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DISTOPIA - mantimentos</title>
-        <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -21,6 +21,8 @@
             --accent-copper: #d97724;
             --accent-silver: #94a3b8;
             --accent-fire: #e53e3e;
+            --accent-water: #38bdf8;
+            --accent-food: #fb923c;
 
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
@@ -272,6 +274,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 0.5rem;
         }
         .btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
         .btn-plus:hover { background: var(--accent-red-dim); border-color: var(--accent-red); color: #fff; }
@@ -340,6 +343,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .money-summary-title {
@@ -360,6 +365,198 @@
             font-size: 2rem;
             font-weight: 700;
             color: var(--accent-gold);
+        }
+
+        /* SEÇÃO DE ALIMENTAÇÃO */
+        .feeding-bar {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .feeding-metrics {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feeding-metric-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .feeding-metric-item strong {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .feeding-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn-confirm-meal {
+            background: var(--accent-red-dim);
+            border: 1px solid var(--accent-red);
+            color: #fff;
+            padding: 0.65rem 1.25rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-confirm-meal:hover:not(:disabled) {
+            background: var(--accent-red);
+        }
+
+        .btn-confirm-meal:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .char-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1.15rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .char-card.has-selection {
+            border-color: rgba(255, 0, 51, 0.45);
+        }
+
+        .char-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .char-name-input {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            padding: 2px 6px;
+            transition: all 0.2s ease;
+        }
+
+        .char-name-input:hover,
+        .char-name-input:focus {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--panel-border);
+            outline: none;
+        }
+
+        .char-gif-wrapper {
+            width: 100%;
+            height: 150px;
+            background: #08080a;
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .char-gif-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+			object-position: center 10%;
+            display: block;
+        }
+
+        .gif-fallback {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .gif-fallback i {
+            font-size: 1.75rem;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .meal-toggles {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+
+        .meal-checkbox-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.6rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .meal-checkbox-label:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .meal-checkbox-label input {
+            display: none;
+        }
+
+        .meal-checkbox-label.water-opt:has(input:checked) {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: var(--accent-water);
+            color: var(--accent-water);
+        }
+
+        .meal-checkbox-label.food-opt:has(input:checked) {
+            background: rgba(251, 146, 60, 0.12);
+            border-color: var(--accent-food);
+            color: var(--accent-food);
         }
 
         /* LIMIT WARNING */
@@ -410,7 +607,7 @@
             <div class="current-section-title" id="section-title-display">
                 <i class="fas fa-boxes-stacked"></i> Materiais
             </div>
-            <span class="slide-indicator" id="slide-indicator-display">1 / 3</span>
+            <span class="slide-indicator" id="slide-indicator-display">SEÇÃO 1 / 4</span>
         </div>
 
         <button class="nav-arrow" onclick="nextSlide()" aria-label="Próxima Seção">
@@ -443,11 +640,35 @@
             <main class="main-grid" id="obolos-container"></main>
         </section>
 
+        <!-- CARD 4: ALIMENTAÇÃO -->
+        <section class="slide-card" id="slide-3">
+            <div class="feeding-bar">
+                <div class="feeding-metrics">
+                    <div class="feeding-metric-item">
+                        <i class="fas fa-droplet" style="color: var(--accent-water);"></i>
+                        <span>Água: <strong id="meal-water-cost">0</strong> <small style="color: var(--text-muted);">(Estoque: <span id="stock-agua-display">0</span>)</small></span>
+                    </div>
+                    <div class="feeding-metric-item">
+                        <i class="fas fa-utensils" style="color: var(--accent-food);"></i>
+                        <span>Comida: <strong id="meal-food-cost">0</strong> <small style="color: var(--text-muted);">(Estoque: <span id="stock-racao-display">0</span>)</small></span>
+                    </div>
+                </div>
+                <div class="feeding-actions">
+                    <button class="btn" onclick="selectAllMeals(true)" title="Marcar água e comida para todos">Todos</button>
+                    <button class="btn" onclick="selectAllMeals(false)" title="Desmarcar tudo">Limpar</button>
+                    <button class="btn-confirm-meal" id="btn-confirm-meal" onclick="consumeSelectedMeals()" disabled>
+                        <i class="fas fa-check"></i> Descontar Recursos
+                    </button>
+                </div>
+            </div>
+            <main class="main-grid" id="feeding-container"></main>
+        </section>
+
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, onValue, set, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         // Configuração do Firebase Realtime Database
         const firebaseConfig = {
@@ -497,6 +718,16 @@
             { id: 'bafo', name: 'Bafo do Diabo', value: 100, icon: 'fa-coins', cssClass: 'coin-card-bafo' }
         ];
 
+        // PERSONAGENS PARA ALIMENTAÇÃO (Substitua os caminhos dos GIFs pelos arquivos reais)
+        const charactersList = [
+            { id: 'char1', defaultName: 'Personagem 1', gif: 'gifs/char1.gif' },
+            { id: 'char2', defaultName: 'Personagem 2', gif: 'gifs/char2.gif' },
+            { id: 'char3', defaultName: 'Personagem 3', gif: 'gifs/char3.gif' },
+            { id: 'char4', defaultName: 'Personagem 4', gif: 'gifs/char4.gif' },
+            { id: 'char5', defaultName: 'Personagem 5', gif: 'gifs/char5.gif' },
+            { id: 'char6', defaultName: 'Personagem 6', gif: 'gifs/char6.gif' }
+        ];
+
         // RENDER MATERIAL CARDS
         const grid = document.getElementById('grid-container');
         grid.innerHTML = resourceList.map(res => `
@@ -541,11 +772,40 @@
                 </div>
             </div>`).join('');
 
+        // RENDER ALIMENTAÇÃO CARDS
+        const feedingGrid = document.getElementById('feeding-container');
+        feedingGrid.innerHTML = charactersList.map(char => `
+            <div class="char-card" id="card-${char.id}">
+                <div class="char-header">
+                    <input type="text" class="char-name-input" id="name-${char.id}" value="${char.defaultName}" 
+                           onchange="saveCharName('${char.id}', this.value)" title="Clique para editar o nome">
+                </div>
+                <div class="char-gif-wrapper">
+                    <img src="${char.gif}" alt="${char.defaultName}" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="gif-fallback">
+                        <i class="fas fa-film"></i>
+                        <span>${char.gif}</span>
+                    </div>
+                </div>
+                <div class="meal-toggles">
+                    <label class="meal-checkbox-label water-opt">
+                        <input type="checkbox" id="chk-agua-${char.id}" onchange="updateMealSummary()">
+                        <i class="fas fa-droplet"></i> Água
+                    </label>
+                    <label class="meal-checkbox-label food-opt">
+                        <input type="checkbox" id="chk-comida-${char.id}" onchange="updateMealSummary()">
+                        <i class="fas fa-utensils"></i> Comida
+                    </label>
+                </div>
+            </div>`).join('');
+
         // LÓGICA DO CARROSSEL
         const sections = [
             { title: 'Materiais', icon: 'fa-boxes-stacked' },
             { title: 'Upgrades', icon: 'fa-sliders' },
-            { title: 'Cofre', icon: 'fa-vault' }
+            { title: 'Cofre', icon: 'fa-vault' },
+            { title: 'Alimentação', icon: 'fa-utensils' }
         ];
 
         let currentSlide = 0;
@@ -575,6 +835,8 @@
         // FIREBASE SYNC & STATE
         let currentBaseLimit = 125;
         let currentBonusStorage = 0;
+        let currentAguaStock = 0;
+        let currentRacaoStock = 0;
 
         // Limite da Base
         onValue(ref(db, 'config/limiteBase'), (snap) => { currentBaseLimit = snap.val() || 125; updateUI(); });
@@ -589,8 +851,26 @@
                 const el = document.getElementById(`val-${res.id}`);
                 if (el) el.innerText = val;
             });
+
+            currentAguaStock = data.agua || 0;
+            currentRacaoStock = data.racao || 0;
+            document.getElementById('stock-agua-display').innerText = currentAguaStock;
+            document.getElementById('stock-racao-display').innerText = currentRacaoStock;
+
             document.getElementById('total-val').innerText = total;
             updateUI();
+            updateMealSummary();
+        });
+
+        // Nomes dos Personagens (Alimentação)
+        onValue(ref(db, 'alimentacao/nomes'), (snap) => {
+            const names = snap.val() || {};
+            charactersList.forEach(char => {
+                const input = document.getElementById(`name-${char.id}`);
+                if (input && names[char.id]) {
+                    input.value = names[char.id];
+                }
+            });
         });
 
         // Upgrades
@@ -663,6 +943,75 @@
                 display.classList.remove('warning');
             }
         }
+
+        // LÓGICA DA SEÇÃO DE ALIMENTAÇÃO
+        window.saveCharName = (charId, newName) => {
+            const cleanName = newName.trim();
+            if (cleanName) {
+                set(ref(db, `alimentacao/nomes/${charId}`), cleanName);
+            }
+        };
+
+        window.updateMealSummary = () => {
+            let waterCount = 0;
+            let foodCount = 0;
+
+            charactersList.forEach(char => {
+                const hasWater = document.getElementById(`chk-agua-${char.id}`).checked;
+                const hasFood = document.getElementById(`chk-comida-${char.id}`).checked;
+                const card = document.getElementById(`card-${char.id}`);
+
+                if (hasWater) waterCount++;
+                if (hasFood) foodCount++;
+
+                card.classList.toggle('has-selection', hasWater || hasFood);
+            });
+
+            const waterCostEl = document.getElementById('meal-water-cost');
+            const foodCostEl = document.getElementById('meal-food-cost');
+            const confirmBtn = document.getElementById('btn-confirm-meal');
+
+            waterCostEl.innerText = waterCount;
+            foodCostEl.innerText = foodCount;
+
+            const insufficientWater = waterCount > currentAguaStock;
+            const insufficientFood = foodCount > currentRacaoStock;
+
+            waterCostEl.classList.toggle('warning', insufficientWater);
+            foodCostEl.classList.toggle('warning', insufficientFood);
+
+            const hasAnySelection = (waterCount + foodCount) > 0;
+            confirmBtn.disabled = !hasAnySelection || insufficientWater || insufficientFood;
+        };
+
+        window.selectAllMeals = (checked) => {
+            charactersList.forEach(char => {
+                document.getElementById(`chk-agua-${char.id}`).checked = checked;
+                document.getElementById(`chk-comida-${char.id}`).checked = checked;
+            });
+            updateMealSummary();
+        };
+
+        window.consumeSelectedMeals = () => {
+            let waterCount = 0;
+            let foodCount = 0;
+
+            charactersList.forEach(char => {
+                if (document.getElementById(`chk-agua-${char.id}`).checked) waterCount++;
+                if (document.getElementById(`chk-comida-${char.id}`).checked) foodCount++;
+            });
+
+            if (waterCount === 0 && foodCount === 0) return;
+            if (waterCount > currentAguaStock || foodCount > currentRacaoStock) return;
+
+            const updates = {};
+            if (waterCount > 0) updates['recursos/agua'] = Math.max(0, currentAguaStock - waterCount);
+            if (foodCount > 0) updates['recursos/racao'] = Math.max(0, currentRacaoStock - foodCount);
+
+            update(ref(db), updates).then(() => {
+                selectAllMeals(false);
+            });
+        };
 
         // OPERAÇÕES NO FIREBASE
         window.changeBaseLimit = (delta) => set(ref(db, 'config/limiteBase'), Math.max(0, currentBaseLimit + delta));
